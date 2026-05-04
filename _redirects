@@ -1,0 +1,16 @@
+# Cloudflare Pages routing
+# Format: <source> <destination> <status>
+#   200 = rewrite (URL stays the same)
+#   301 = permanent redirect
+
+# Root menampilkan lobby tanpa mengubah URL.
+/                /lobby.html   200
+
+# Backward-compat dengan path Express lama.
+/chess           /Chess.html   301
+/workshop        /Fix.html     301
+/profile         /Pf.html      301
+
+# OAuth lama sekarang dilakukan di sisi klien — arahkan kembali ke lobby.
+/auth/google     /lobby.html   301
+/auth/github     /lobby.html   301

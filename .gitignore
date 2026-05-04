@@ -1,4 +1,5 @@
 .vercel
+.wrangler/
 node_modules/
 .env
 .env.local
@@ -6,4 +7,5 @@ node_modules/
 dist/
 build/
 .vscode/
+.DS_Store
 package-lock.json

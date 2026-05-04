@@ -7,6 +7,7 @@
 
 <!-- ══ SUPABASE SDK ══ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
 
 <!-- ══ FONTS ══ -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -1099,8 +1100,8 @@ body.simple-theme .hero-title{
    CONFIG — GANTI DI SINI
    ████████████████████████████████████████ */
 
-const SB_URL = '<%= supabaseUrl %>';
-const SB_KEY = '<%= supabaseKey %>';
+const SB_URL = (typeof window !== 'undefined' && window.SB_URL) || 'YOUR_SUPABASE_URL';
+const SB_KEY = (typeof window !== 'undefined' && window.SB_KEY) || 'YOUR_SUPABASE_ANON_KEY';
 
 /* ════════════════════════════════════════
    INIT
@@ -1183,11 +1184,21 @@ async function doLogin() {
 }
 
 async function doGoogleLogin(){
-  window.location.href = '/auth/google';
+  if (DEMO_MODE || !sb) { setAuthError('Supabase belum dikonfigurasi.'); return; }
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin + window.location.pathname }
+  });
+  if (error) setAuthError(error.message);
 }
 
 async function doGithubLogin() {
-    window.location.href = '/auth/github';
+  if (DEMO_MODE || !sb) { setAuthError('Supabase belum dikonfigurasi.'); return; }
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.origin + window.location.pathname }
+  });
+  if (error) setAuthError(error.message);
 }
 
 async function handleAuthRedirect() {
