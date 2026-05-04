@@ -1,11 +1,12 @@
 {
   "name": "pukimon",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Chess Fantasy — static site (HTML/CSS/JS) untuk Cloudflare Pages.",
   "private": true,
   "scripts": {
-    "start": "npx --yes serve -l 8000 .",
-    "deploy": "npx --yes wrangler pages deploy . --project-name=pukimon"
+    "build": "node build.cjs",
+    "start": "node build.cjs && npx --yes serve -l 8000 .",
+    "deploy": "node build.cjs && npx --yes wrangler pages deploy . --project-name=pukimon"
   },
   "license": "ISC"
 }
