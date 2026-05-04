@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Cheess Fantasy — Realm of Pieces · Gameplay</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════ VARIABLES ══════════ */
@@ -1529,12 +1530,12 @@ body.no-survival-ui .mobile-battle-bar .mb-meta{width:auto;flex:1}
 /* ══════════════════════════════════════════════════════════
    CONFIG — GANTI INI UNTUK MULTIPLAYER ONLINE
 ══════════════════════════════════════════════════════════ */
-const SB_URL = '<%= supabaseUrl %>';
-const SB_KEY = '<%= supabaseKey %>';
-const DEMO = false; // Harus FALSE agar VS ONLINE bisa diklik
+const SB_URL = (typeof window !== 'undefined' && window.SB_URL) || 'YOUR_SUPABASE_URL';
+const SB_KEY = (typeof window !== 'undefined' && window.SB_KEY) || 'YOUR_SUPABASE_ANON_KEY';
+const DEMO = (SB_URL === 'YOUR_SUPABASE_URL'); // Otomatis demo bila Supabase belum diatur
 console.log("URL:", SB_URL);
 console.log("KEY:", SB_KEY);
-const sb = supabase.createClient(SB_URL, SB_KEY);
+const sb = DEMO ? null : supabase.createClient(SB_URL, SB_KEY);
 const STORAGE_PROFILE_KEY = 'cf_profile';
 const STORAGE_ROOM_KEY = 'cf_last_room';
 const STORAGE_STATS_KEY = 'cf_stats';
