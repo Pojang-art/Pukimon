@@ -23,27 +23,26 @@ Cloudflare Pages saat build.
 
 ## Cara Kerja Konfigurasi Supabase
 
-`config.js` di-commit dengan **placeholder** (mode DEMO).
-Saat build di Cloudflare Pages, script `build.cjs` membaca:
+`config.js` sudah di-commit dengan URL & anon key produksi, sehingga
+aplikasi langsung jalan tanpa setting tambahan.
+
+Untuk override (mis. preview environment dengan project Supabase
+berbeda), set env vars berikut di Cloudflare Pages → Settings →
+Environment Variables:
 
 | Env var              | Sumber Supabase Dashboard                 |
 | -------------------- | ----------------------------------------- |
 | `SUPABASE_URL`       | Settings → API → **Project URL**          |
 | `SUPABASE_ANON_KEY`  | Settings → API → **anon public key**      |
 
-…lalu menulis ulang `config.js` jadi:
+Saat build, `build.cjs`:
 
-```js
-window.SB_URL = "https://xxx.supabase.co";
-window.SB_KEY = "eyJhbGciOi...";
-```
+- **Tanpa env vars** → biarkan `config.js` apa adanya (pakai nilai
+  committed).
+- **Ada env vars** → overwrite `config.js` dengan nilai env.
 
 > Anon key Supabase memang publik (Row Level Security yang melindungi
-> data), jadi aman terkirim ke browser.
-
-Bila salah satu env var kosong, `build.cjs` tetap menulis placeholder
-sehingga aplikasi otomatis berjalan dalam **DEMO MODE** (login Supabase
-& multiplayer dimatikan) — tidak akan crash di produksi.
+> data), jadi aman terkirim ke browser dan aman di-commit.
 
 ## Deploy ke Cloudflare Pages
 
@@ -55,7 +54,8 @@ sehingga aplikasi otomatis berjalan dalam **DEMO MODE** (login Supabase
    - Framework preset: **None**
    - Build command: `npm run build`
    - Build output directory: `/`
-3. **Environment variables** (Production *dan* Preview):
+3. *(Opsional)* **Environment variables** (Production / Preview) bila
+   ingin override nilai default:
    - `SUPABASE_URL` = `https://xxxx.supabase.co`
    - `SUPABASE_ANON_KEY` = `eyJhbGciOi…` (anon public)
 4. **Save and Deploy**.
