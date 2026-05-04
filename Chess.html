@@ -902,6 +902,7 @@ body.no-survival-ui .mobile-battle-bar .mb-meta{width:auto;flex:1}
 }
 
 </style>
+<link rel="stylesheet" href="halftone.css"/>
 </head>
 <body>
 <div class="global-ui-tools">
@@ -3977,6 +3978,10 @@ function activateSkill(requestedColor){
       updatePanels();
       updateMoveHistory();
       checkGameOver();
+      // Sinkron ke lawan supaya tidak stuck di sisi mereka (Royal Command,
+      // Vanguard Crown, Soul Recall — skill yang langsung selesai tanpa
+      // memilih target via onCellClick).
+      if(G.mode==='online') syncOnlineMove();
     }
   } else if(G.skillMode===null){
     G.skillOwner=null;

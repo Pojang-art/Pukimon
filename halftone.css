@@ -1,0 +1,207 @@
+/* ════════════════════════════════════════════════════════════════════
+   HALFTONE DESIGN LAYER
+   Stylesheet ringan yang menambahkan estetika halftone (titik cetak,
+   garis tinta, palet duotone) di atas tema dasar Chess Fantasy.
+   Dipakai di lobby.html, Chess.html, Pf.html, Fix.html.
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --ht-dot-color: rgba(201, 169, 110, 0.16);
+  --ht-dot-color-strong: rgba(201, 169, 110, 0.28);
+  --ht-line-ink: rgba(232, 226, 217, 0.85);
+  --ht-paper: #0a0a0a;
+  --ht-accent: var(--gold, #c9a96e);
+  --ht-accent2: var(--gold2, #e8c98a);
+  --ht-shadow: 4px 4px 0 rgba(201, 169, 110, 0.55);
+  --ht-grid: 10px;
+}
+
+[data-theme="light"] {
+  --ht-dot-color: rgba(18, 20, 23, 0.10);
+  --ht-dot-color-strong: rgba(123, 90, 35, 0.30);
+  --ht-line-ink: rgba(18, 20, 23, 0.85);
+  --ht-paper: #f4eee2;
+}
+
+/* ── 1. Halftone overlay di seluruh body lewat background, bukan pseudo,
+   supaya tidak menabrak stacking modal/toast/menu ── */
+body {
+  background-image:
+    radial-gradient(var(--ht-dot-color) 1px, transparent 1.4px),
+    radial-gradient(var(--ht-dot-color) 1px, transparent 1.4px),
+    var(--existing-body-bg, none);
+  background-size: var(--ht-grid) var(--ht-grid), var(--ht-grid) var(--ht-grid);
+  background-position: 0 0, calc(var(--ht-grid) / 2) calc(var(--ht-grid) / 2);
+  background-attachment: fixed, fixed, fixed;
+}
+
+/* ── 2. Halftone gradient di header tetap subtle ── */
+.lobby-logo,
+.brand,
+.top-bar,
+.battle-top,
+.battle-bottom {
+  position: relative;
+}
+
+/* ── 3. Card / panel dengan tekstur halftone tipis ── */
+.lobby-card,
+.modal-content,
+.panel,
+.right-rail,
+.left-rail,
+.chess-board,
+.skill-card,
+.dock,
+.chat-block,
+.battle-card,
+.profile-card,
+.workshop-card,
+.workshop-section {
+  background-image:
+    radial-gradient(var(--ht-dot-color-strong) 0.9px, transparent 1.2px);
+  background-size: 14px 14px;
+  background-blend-mode: overlay;
+}
+
+[data-theme="light"] .lobby-card,
+[data-theme="light"] .modal-content,
+[data-theme="light"] .panel,
+[data-theme="light"] .skill-card {
+  background-blend-mode: multiply;
+}
+
+/* ── 4. Border tinta + drop-shadow ala komik ── */
+.btn,
+.gold-btn,
+.lobby-btn,
+.ghost-btn,
+.skill-card,
+.class-btn,
+.modal-content,
+.lobby-card,
+.profile-card,
+.workshop-section,
+.btn.gold {
+  box-shadow: var(--ht-shadow);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn:hover,
+.gold-btn:hover,
+.lobby-btn:hover,
+.skill-card.usable:hover,
+.class-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--ht-accent2);
+}
+
+.btn:active,
+.gold-btn:active,
+.lobby-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ht-accent);
+}
+
+/* ── 5. Heading bertanda dot ribbon ── */
+.section-title,
+.lobby-title,
+.modal-title,
+.panel-title,
+.profile-title,
+.workshop-title {
+  position: relative;
+  letter-spacing: 0.16em;
+}
+
+.section-title::before,
+.lobby-title::before,
+.modal-title::before,
+.panel-title::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 6px;
+  margin-right: 8px;
+  vertical-align: middle;
+  background-image:
+    radial-gradient(var(--ht-accent) 1.2px, transparent 1.6px);
+  background-size: 4px 4px;
+  background-repeat: round;
+  filter: drop-shadow(0 0 2px var(--ht-accent));
+}
+
+/* ── 6. Tombol skill ditambah aura halftone ── */
+.skill-card {
+  border-radius: 8px;
+  border: 1.5px solid var(--ht-accent);
+}
+.skill-card.activated {
+  background-image:
+    radial-gradient(var(--ht-accent2) 1.4px, transparent 1.8px),
+    radial-gradient(var(--ht-accent2) 1.4px, transparent 1.8px);
+  background-size: 9px 9px, 9px 9px;
+  background-position: 0 0, 4.5px 4.5px;
+  animation: ht-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes ht-pulse {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.25) drop-shadow(0 0 14px var(--ht-accent)); }
+}
+
+/* ── 7. Papan catur dengan tekstur ink ── */
+.chess-board {
+  background-image:
+    radial-gradient(var(--ht-accent) 0.7px, transparent 1px);
+  background-size: 6px 6px;
+  background-blend-mode: overlay;
+}
+
+/* ── 8. Toast & status bar halftone ── */
+.toast,
+.status,
+.battle-banner {
+  background-image: radial-gradient(var(--ht-accent) 1px, transparent 1.4px);
+  background-size: 6px 6px;
+  background-blend-mode: overlay;
+  border: 1.5px solid var(--ht-accent);
+  letter-spacing: 0.12em;
+}
+
+/* ── 9. Mode navigasi (link halaman) ── */
+nav a,
+.nav a,
+.menu a,
+.lobby-actions .btn {
+  position: relative;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+nav a::after,
+.nav a::after {
+  content: "";
+  position: absolute;
+  inset: auto 8px -4px 8px;
+  height: 4px;
+  background-image: radial-gradient(var(--ht-accent) 1px, transparent 1.4px);
+  background-size: 4px 4px;
+  opacity: 0.6;
+}
+
+/* ── 10. Responsif: kurangi pola di layar kecil supaya tidak ramai ── */
+@media (max-width: 540px) {
+  body::after { opacity: 0.35; }
+  .lobby-card,
+  .panel,
+  .skill-card,
+  .modal-content { background-size: 18px 18px; }
+}
+
+/* ── 11. Reduced motion: matikan animasi halftone ── */
+@media (prefers-reduced-motion: reduce) {
+  .skill-card.activated { animation: none; }
+  .btn:hover,
+  .gold-btn:hover,
+  .lobby-btn:hover { transform: none; }
+}
